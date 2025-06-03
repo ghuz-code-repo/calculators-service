@@ -1,0 +1,27 @@
+services:
+  calculators-service:
+    image: calculators-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      - "nginx.auth=true"
+      - "nginx.client_max_body_size=100m"  # Increase max upload size to 100MB
+    volumes:
+      - ./instance:/app/instance
+      - ./excel_data:/app/excel_data
+    environment:
+      - BEHIND_PROXY=true
+    env_file:
+      - .env
+    networks:
+      - service_network
+      - public_network
+
+networks:
+  service_network:
+    external: true
+    name: service_network
+  public_network:
+    external: true
+    name: public_network

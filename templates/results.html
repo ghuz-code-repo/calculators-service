@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты расчета</title>
+    <link rel="stylesheet" href="/calculators/static/css/style.css">
+    <link rel="stylesheet" href="/calculators/static/css/common.css">
+</head>
+<body>
+    <div class="top-left">
+        <a href="/calculators/main"><img src="/calculators/static/image_2025-04-22_15-51-16.png" class="logo"></a>
+    </div>
+    <div class="container">
+        <div class="header">
+            Рассчет выполнил менеджер по продажам: {{ full_name }}
+        </div>
+        <h1>Результат расчета</h1>
+        <div class="centered-container">
+            <h1>Страница результатов</h1>
+            <p><strong>Название проекта:</strong> {{ project_name }}</p>
+            <p><strong>Номер квартиры:</strong> {{ apartment_number }}</p>
+            <p><strong>Площадь:</strong> {{ area }} кв.м</p>
+            <p><strong>Платная бронь:</strong> 3 000 000</p>
+            <p><strong>Стоимость по договору:</strong> {{ "{:,.0f}".format(contract_price).replace(",", " ") }}</p>
+            <p><strong>Стоимость по договору за кв.м:</strong> {{ "{:,.0f}".format(contract_price_per_sqm).replace(",", " ") }}</p>
+            <p><strong>Первоначальный взнос:</strong> {{ "{:,.0f}".format(initial_payment).replace(",", " ") }}</p>
+            <p><strong>Ежемесячный платеж:</strong> {{ "{:,.0f}".format(monthly_payment).replace(",", " ") }}</p>
+            <p><strong>Срок рассрочки:</strong> {{ installment_period }} месяцев</p>
+            <p>Рассчет выполнен менеджером по продажам ({{ full_name }}) в ({{ current_datetime }})</p>
+        </div>
+        <div class="buttons">
+            <button onclick="window.location.href='/calculators/main'">Вернуться</button>
+            <button onclick="window.print()">Печать</button>
+        </div>
+        <div class="footer">
+            <p>Данное коммерческое предложение действует 12 часов с момента печати</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты расчета рассрочки</title>
+    <link rel="stylesheet" href="/calculators/static/css/style.css">
+    <link rel="stylesheet" href="/calculators/static/css/common.css">
+</head>
+<body>
+    <div class="top-left">
+        <a href="/calculators/main"><img src="/calculators/static/image_2025-04-22_15-51-16.png" class="logo"></a>
+    </div>
+    <div class="container">
+        <div class="header">
+            Рассчет выполнил менеджер по продажам: {{ result.full_name }}
+        </div>
+        <h1>Результат расчета</h1>
+        <div class="details">
+            <h2>Детали обьекта недвижимости</h2>
+            <p><strong>Проект:</strong> {{ result.project_name }}</p>
+            <p>Площадь [кв.м]: {{ result.area }}</p>
+            <p>Стоимость по макро: {{ "{:,}".format(result.full_price).replace(",", " ") }}</p>
+            <p>Сумма платного бронирования: {{ "{:,}".format(result.paid_reservation).replace(",", " ") }}</p>
+            <p>Стоимость по прайсу минус бронь: {{ "{:,}".format(result.price).replace(",", " ") }}</p>
+            <p>Цена по прайсу [за кв.м]: {{ "{:,}".format(result.per_sqm_price).replace(",", " ") }}</p>
+            <p>Номер квартиры: {{ result.apartment_number }}</p>
+        </div>
+        <div class="calculations">
+            <p>Первоначальный взнос без рассрочки: {{ "{:,}".format(result.initial_payment).replace(",", " ") }}</p>
+            <p>Первоначальный взнос с рассрочкой: {{ "{:,}".format(result.total_rassrochka_payment).replace(",", " ") }}</p>
+            <p>Ежемесячный платеж : {{ "{:,}".format(result.FI_monthly_payment).replace(",", " ") }}</p>
+            <p>Срок рассрочки (в месяцах): {{ result.installment_period }}</p>
+            <p>Итоговая стоимость по договору: {{ "{:,}".format(result.contract_price).replace(",", " ") }}</p>
+            <p>Итоговая цена за кв.м: {{ "{:,}".format(result.contract_price_per_sqm).replace(",", " ") }}</p>
+            <h3>Примененные скидки</h3>
+            <p>Общая сумма скидок: {{ result.total_discount }}%</p>
+        </div>
+        <div class="buttons">
+            <button onclick="window.location.href='/calculators/main'">Вернуться</button>
+            <button onclick="window.print()">Печать</button>
+        </div>
+        <div class="footer">
+            <p>{{ result.current_datetime }}</p>
+            <p>Данное коммерческое предложение действует 12 часов с момента печати</p>
+        </div>
+    </div>
+</body>
+</html>
