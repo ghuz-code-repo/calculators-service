@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
@@ -8,13 +8,13 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-}
+} */
 .container {
     width: 90%;
     max-width: 800px;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(3, 3, 3, 0.1);
     text-align: center;
     position: relative;
 }
@@ -31,17 +31,17 @@ p {
 .details p, .calculations p {
     margin: 5px 0;
 }
-.button {
+/* .button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #d4af37; /* Golden House primary color */
+    background-color: #d4af37; 
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
 }
 .button:hover {
-    background-color: #b38e2c; /* Darker shade of primary color */
-}
+    background-color: #b38e2c; 
+} */
 .manager {
     margin-bottom: 20px;
     font-style: italic;

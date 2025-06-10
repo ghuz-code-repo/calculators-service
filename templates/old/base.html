@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>{% block title %}Калькулятор{% endblock %}</title>
+    <link rel="stylesheet" href="/calculators/static/css/style.css">
+    <link rel="stylesheet" href="/calculators/static/css/common.css">
+    
+
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="tab_menu">
+        <button class="tablink" onclick="openPage('ipoteka_rassrochka', this, 'red')" id='defaultOpen'>Ипотека+рассрочка</button>
+        <button class="tablink" onclick="openPage('rassrochka', this, 'green')">Рассрочка</button>
+        <button class="tablink" onclick="openPage('ipoteka_zero', this, 'blue')">Ипотека под 0%</button>
+        <button class="tablink" onclick="openPage('rassrochka_pv', this, 'orange')">Рассрочка ПВ</button>
+    </div>
+    <div class="tab_container">
+        <div id="ipoteka_rassrochka" class="tabcontent">
+            {% block ipoteka_rassrochka %}{%endblock%}
+        </div>
+        <div id="rassrochka" class="tabcontent">
+            {% block rassrochka %}{%endblock%}
+        </div>
+        <div id="ipoteka_zero" class="tabcontent">
+            {% block ipoteka_zero %}{%endblock%}
+        </div>
+        <div id="rassrochka_pv" class="tabcontent">
+            {% block rassrochka_pv %}{%endblock%}
+        </div>
+    </div>
+</body>
+</html>

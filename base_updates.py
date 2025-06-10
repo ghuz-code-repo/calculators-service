@@ -19,14 +19,31 @@ def import_objects(file_path):
     objects = Object.query.all()
     for _, row in df.iterrows():
         obj = Object(
-            area=row['Площадь'], price=row['Стоимость по прайсу'], floor=row['Этаж'], entrance=row['Подьезд'],
-            apartment_number=row['№ квартиры'], min_down_payment=row['Минимальный ПВ'], max_down_payment=row['Максимальный ПВ'],
-            opt=row['ОПТ'], holding=row['Холдинг'], gd=row['ГД'], max_discount=row['Макс скидка'], project=row['Проект'],apartment_id=row['ID'], kd=row['КД'],mpp=row['МПП'],rop=row['РОП']
+            area=row['Площадь'],
+            price=row['Стоимость по прайсу'],
+            floor=row['Этаж'],
+            entrance=row['Подьезд'],
+            apartment_number=row['№ квартиры'],
+            min_down_payment=row['Минимальный ПВ'],
+            max_down_payment=row['Максимальный ПВ'],
+            opt=row['ОПТ'],
+            holding=row['Холдинг'],
+            gd=row['ГД'],
+            max_discount=row['Макс скидка'],
+            project=row['Проект'],
+            apartment_id=row['ID'],
+            kd=row['КД'],
+            mpp=row['МПП'],rop=row['РОП'],
+            months_to_cadastre=row['Кадастр'],
+            min_down_payment_installment=row['Минимальный ПВ'],
+            max_installment_period_installment=row['Кадастр'],
+            mpp_ras=row['МПП_рас'],
+            rop_ras=row['РОП_рас'],
+            action=row['Акция']
         )
         if obj not in objects:
             db.session.add(obj)
     db.session.commit()
-
 if __name__ == '__main__':
     with app.app_context():
         import_banks(r'Z:\GoldenHouse\Коммерческий департамент\!Автоматические отчеты\План-фактный отчет\temp\БД_клон для сайта ипотеки.xlsx')

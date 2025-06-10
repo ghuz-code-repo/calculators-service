@@ -1,0 +1,56 @@
+
+<div class="container">
+
+    <h1>Калькулятор ипотеки под 0%</h1>
+    <!-- Use absolute URLs for form actions -->
+    <form action="/calculators/process_form" method="POST">
+        <label for="apartment_id">Id квартиры:</label>
+        <input class="input_field" type="text" id="apartment_id"
+            name="apartment_id" required><br><br>
+
+        <label for="installment_period">Период рассрочки:</label>
+        <select class="input_field" id="installment_period"
+            name="installment_period">
+            {% for period in installment_periods %}
+            <option value="{{ period[0] }}">{{ period[0] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="interest_rate">Процент первоначального
+            взноса:</label>
+        <select class="input_field" id="interest_rate"
+            name="interest_rate">
+            {% for rate in interest_rates %}
+            <option value="{{ rate[0] }}">{{ rate[0] }}</option>
+            {% endfor %}
+        </select><br><br>
+        <div id="discountFields" style="display: none;">
+            <label for="gd_discount">Скидка ГД:</label>
+            <input class="input_field" type="text" id="gd_discount"
+                name="gd_discount"><br><br>
+
+            <label for="holding_discount">Скидка Холдинга:</label>
+            <input class="input_field" type="text" id="holding_discount"
+                name="holding_discount"><br><br>
+
+            <label for="opt_discount">Скидка ОПТ:</label>
+            <input class="input_field" type="text" id="opt_discount"
+                name="opt_discount"><br><br>
+        </div>
+        <div class="buttons">
+            <button type="button"
+                onclick="toggleDiscountFields()">Скрыть/Показать</button>
+            <button type="submit">Рассчитать</button>
+            <button type="button"onclick="window.location.href = '/calculators/calculate_installment_plan'">
+                Перейти на калькулятор рассрочки</button>
+            {% if login_data == 'admin' %}
+            <button type="button"onclick="window.location.href = '/calculators/admin'">
+                Админ панель</button>
+            {% endif %}
+        </div>
+    </form>
+
+    {% if cashback_value %}
+    <p>Cashback Value: {{ cashback_value }}</p>
+    {% endif %}
+</div>

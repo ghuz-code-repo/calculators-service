@@ -1,20 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор ипотеки под 0%</title>
-    <!-- Use absolute paths for all static files -->
     <link rel="stylesheet" href="/calculators/static/css/style.css">
     <link rel="stylesheet" href="/calculators/static/css/common.css">
-    <script src="/calculators/static/js/toggling.js"></script>
 </head>
 <body>
-    <div class="top-left">
-        <a href="/calculators/main"><img src="/calculators/static/image_2025-04-22_15-51-16.png" class="logo"></a>
-    </div> 
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <div class="flash-messages">
             {% for category, message in messages %}
@@ -22,59 +13,29 @@
             {% endfor %}
         </div>
         {% endif %}
-        {% endwith %}
-        <h1>Калькулятор ипотеки под 0%</h1>
-        <!-- Use absolute URLs for form actions -->
-        <form action="/calculators/process_form" method="POST">
-            <label for="apartment_id">Id квартиры:</label>
-            <input class="input_field" type="text" id="apartment_id"
-                name="apartment_id" required><br><br>
-
-            <label for="installment_period">Период рассрочки:</label>
-            <select class="input_field" id="installment_period"
-                name="installment_period">
-                {% for period in installment_periods %}
-                <option value="{{ period[0] }}">{{ period[0] }}</option>
-                {% endfor %}
-            </select><br><br>
-
-            <label for="interest_rate">Процент первоначального
-                взноса:</label>
-            <select class="input_field" id="interest_rate"
-                name="interest_rate">
-                {% for rate in interest_rates %}
-                <option value="{{ rate[0] }}">{{ rate[0] }}</option>
-                {% endfor %}
-            </select><br><br>
-            <div id="discountFields" style="display: none;">
-                <label for="gd_discount">Скидка ГД:</label>
-                <input class="input_field" type="text" id="gd_discount"
-                    name="gd_discount"><br><br>
-
-                <label for="holding_discount">Скидка Холдинга:</label>
-                <input class="input_field" type="text" id="holding_discount"
-                    name="holding_discount"><br><br>
-
-                <label for="opt_discount">Скидка ОПТ:</label>
-                <input class="input_field" type="text" id="opt_discount"
-                    name="opt_discount"><br><br>
+    {% endwith %}
+    <main>
+        <div class="tab_menu">
+            <button class="tablink" onclick="openPage('ipoteka_rassrochka', this, 'red')" id='defaultOpen'>Ипотека+рассрочка</button>
+            <button class="tablink" onclick="openPage('rassrochka', this, 'green')">Рассрочка</button>
+            <button class="tablink" onclick="openPage('ipoteka_zero', this, 'blue')">Ипотека под 0%</button>
+            <button class="tablink" onclick="openPage('rassrochka_pv', this, 'orange')">Рассрочка ПВ</button>
+        </div>
+        <div class="tab_container">
+            <div id="ipoteka_rassrochka" class="tabcontent">
+                {% include 'components/ipoteka_rassrochka.html' %}
             </div>
-            <div class="buttons">
-                <button type="button"
-                    onclick="toggleDiscountFields()">Скрыть/Показать</button>
-                <button type="submit">Рассчитать</button>
-                <button type="button"onclick="window.location.href = '/calculators/calculate_installment_plan'">
-                    Перейти на калькулятор рассрочки</button>
-                {% if login_data == 'admin' %}
-                <button type="button"onclick="window.location.href = '/calculators/admin'">
-                    Админ панель</button>
-                {% endif %}
+            <div id="rassrochka" class="tabcontent">
+                {% include 'components/rassrochka.html' %}
             </div>
-        </form>
-
-        {% if cashback_value %}
-        <p>Cashback Value: {{ cashback_value }}</p>
-        {% endif %}
-    </div>
+            <div id="ipoteka_zero" class="tabcontent">
+                {% include 'components/ipoteka_zero.html' %}
+            </div>
+            <div id="rassrochka_pv" class="tabcontent">
+                {% include 'components/rassrochka_pv.html' %}
+            </div>
+        </div>
+    </main>
 </body>
+<script src="/calculators/static/js/tabs.js"></script>
 </html>

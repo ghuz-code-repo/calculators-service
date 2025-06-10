@@ -2,7 +2,7 @@ import os
 from flask import render_template, redirect, url_for, flash, request, session, Blueprint, jsonify
 from models import db, User, Bank, Object, Apartment
 import math
-from datetime import datetime
+from datetime import datetime, time
 from models import CalculationHistory
 from pytz import timezone
 import logging
@@ -341,7 +341,7 @@ def update_database():
         #socketio.emit('update_status', {'message': f'An error occurred: {e}'}, namespace='/admin')
     return redirect(get_prefix_url('/admin'))
 
-@bp_routes.route('/main', methods=['GET', 'POST'])
+@bp_routes.route('/', methods=['GET', 'POST'])
 def main():
     user = get_current_user()
     installment_periods = db.session.query(Bank.installment_period).distinct().all()
@@ -349,18 +349,12 @@ def main():
     cashback_value = request.args.get('cashback_value')
     return render_template('main.html', installment_periods=installment_periods, interest_rates=interest_rates, cashback_value=cashback_value, login_data=user.role)
 
-
-@bp_routes.route('/')
-def index():
-    """Root route redirects to main"""
-    return redirect(get_prefix_url('/main'))
-
 @bp_routes.route('/admin', methods=['GET', 'POST'])
 def admin():
     user = get_current_user()
     if user.role != 'admin':
         flash('Access denied.', 'danger')
-        return redirect(get_prefix_url('/main'))
+        return redirect(get_prefix_url('/'))
     
     # Get date filters
     date_from_str = request.form.get('date_from')
@@ -422,21 +416,21 @@ def process_form():
     obj = Object.query.filter_by(apartment_id=apartment_id).first()
     if not obj:
         flash('Invalid apartment ID.', 'danger')
-        return redirect(get_prefix_url('/main'))
+        return redirect(get_prefix_url('/'))
     bank = Bank.query.filter_by(installment_period=installment_period, interest_rate=interest_rate).first()
     if not bank:
         flash('No matching bank data found.', 'danger')
-        return redirect(get_prefix_url('/main'))
+        return redirect(get_prefix_url('/'))
 
     if gd_discount> obj.gd or gd_discount < 0.0:
         flash('Невозможно применить такую скидку ГД.', 'danger')
-        return redirect(get_prefix_url('/main'))
+        return redirect(get_prefix_url('/'))
     if holding_discount > obj.holding or holding_discount < 0.0:
         flash('Невозможно применить такую скидку Холдинга', 'danger')
-        return redirect(get_prefix_url('/main'))
+        return redirect(get_prefix_url('/'))
     if opt_discount > obj.opt or opt_discount < 0.0:
         flash('Невозможно применить такую скидку ОПТ', 'danger')
-        return redirect(get_prefix_url('/main'))
+        return redirect(get_prefix_url('/'))
 
     cashback_value = bank.cashback_value
     #todo
@@ -477,6 +471,159 @@ def process_form():
                            full_name=full_name,
                            current_datetime=current_datetime,
                            contract_price_per_sqm=contract_price_per_sqm)
+
+@bp_routes.route('/calculate_rassrochka', methods=['GET', 'POST'])
+def calculate_rassrochka():
+    try:
+        calculator_type = request.form['calculator_type']
+        apartment_id = request.form['apartment_id']
+        down_payment = request.form['down_payment'].strip()  # Удаление пробелов
+        installment_period = int(request.form['installment_period'])
+        mpp = float(request.form.get('mpp', 0) or 0)
+        rop = float(request.form.get('rop', 0) or 0)
+        opt = float(request.form.get('opt', 0) or 0)
+        holding = float(request.form.get('holding', 0) or 0)
+        gd = float(request.form.get('gd', 0) or 0)
+        action = float(request.form.get('action', 0) or 0)
+    except ValueError:
+        return "Неверный формат данных. Пожалуйста, введите корректные значения.", 400
+    # Проверка длины строки
+    print(len(down_payment))
+
+    apartment = Object.query.filter_by(apartment_id=apartment_id).first()
+
+    if not apartment:
+        return "Квартира не найдена", 404
+
+    apartment_dict = {
+        'id': apartment.apartment_id,
+        'area': apartment.area,
+        'price': apartment.price,
+        'floor': apartment.floor,
+        'entrance': apartment.entrance,
+        'apartment_number': apartment.apartment_number,
+        'months_to_cadastre': apartment.months_to_cadastre, #!!!!!!
+        'min_down_payment': apartment.min_down_payment,
+        'project': apartment.project, #!!!!!!
+        'min_down_payment_installment': apartment.min_down_payment_installment, #!!!!!!
+        'max_installment_period_installment': apartment.max_installment_period_installment, #!!!!!!
+        'mpp': apartment.mpp,
+        'rop': apartment.rop,
+        'mpp_ras': apartment.mpp_ras, #!!!!!!
+        'rop_ras': apartment.rop_ras,#!!!!!!
+        'holding': apartment.holding,
+        "gd": apartment.gd,
+        "action": apartment.action, #!!!!!!
+        'opt': apartment.opt
+    }
+    initial_price = apartment_dict['price']
+    area = apartment_dict['area']
+    price_per_sqm = round(initial_price / area)
+
+    reduced_price = initial_price - 3000000
+
+    total_discount_percentage = mpp + rop + opt + holding + gd + action
+    total_discount = reduced_price * (total_discount_percentage / 100)
+
+    final_price = math.ceil(reduced_price - total_discount)
+    if len(down_payment) > 3:
+        down_payment = float(down_payment)
+        down_payment_percentage = float((down_payment / (final_price))*100)
+    else:
+        down_payment_percentage = float(down_payment)
+        down_payment=float(down_payment)# Преобразование в число
+        down_payment = math.ceil(down_payment * final_price / 100)
+        print("hi")
+
+    print(down_payment_percentage)
+
+    if calculator_type == 'mortgage' and (down_payment_percentage ) < apartment_dict['min_down_payment_installment']:
+        return f"Процент первоначального взноса должен быть не менее {apartment_dict['min_down_payment_installment']}%", 400
+    if calculator_type == 'mortgage' and down_payment_percentage > 90:
+        return f"Процент первоначального взноса должен быть не больше 90%", 400
+    if calculator_type == 'installment' and down_payment_percentage > 90:
+        return f"Процент первоначального взноса должен быть не больше 90%", 400
+    if calculator_type == 'installment' and (down_payment_percentage ) < apartment_dict['min_down_payment'] / 100:
+        return f"Процент первоначального взноса должен быть не менее {apartment_dict['min_down_payment']}%", 400
+
+
+    if calculator_type == 'mortgage' and installment_period > apartment_dict['max_installment_period_installment']:
+        return f"Срок рассрочки не может быть больше {apartment_dict['max_installment_period_installment']}", 400
+    if calculator_type == 'mortgage' and installment_period < 0:
+        return f"Срок рассрочки не может быть меньше 0", 400
+    if calculator_type == 'installment' and installment_period < 0:
+        return f"Срок рассрочки не может быть меньше 0", 400
+    if calculator_type == 'installment' and installment_period > apartment_dict['months_to_cadastre']:
+        return f"Срок рассрочки не может быть больше {apartment_dict['months_to_cadastre']}", 400
+    if calculator_type == 'installment':
+        if mpp > apartment_dict['mpp']:
+            return f"Максимально допустимый МПП: {apartment_dict['mpp']}%", 400
+        if rop > apartment_dict['rop']:
+            return f"Максимально допустимый РОП: {apartment_dict['rop']}%", 400
+        if opt > apartment_dict['opt']:
+            return f"Максимально допустимый ОПТ: {apartment_dict['opt']}%", 400
+        if holding > apartment_dict['holding']:
+            return f"Максимально допустимый Холдинг: {apartment_dict['holding']}%", 400
+        if gd > apartment_dict['gd']:
+            print(apartment_dict['gd'])
+            return f"Максимально допустимый ГД: {apartment_dict['gd']}%", 400
+        if action > apartment_dict['action']:
+            return f"Максимально допустимая Акция: {apartment_dict['action']}%", 400
+    else:
+        if mpp > apartment_dict['mpp_ras']:
+            return f"Максимально допустимый МПП: {apartment_dict['mpp_ras']}%", 400
+        if rop > apartment_dict['rop_ras']:
+            return f"Максимально допустимый РОП: {apartment_dict['rop_ras']}%", 400
+        if opt > apartment_dict['opt']:
+            return f"Максимально допустимый ОПТ: {apartment_dict['opt']}%", 400
+        if holding > apartment_dict['holding']:
+            return f"Максимально допустимый Холдинг: {apartment_dict['holding']}%", 400
+        if gd > apartment_dict['gd']:
+            return f"Максимально допустимый ГД: {apartment_dict['gd']}%", 400
+        if action > apartment_dict['action']:
+            return f"Максимально допустимая Акция: {apartment_dict['action']}%", 400
+
+
+    if calculator_type == 'installment':
+        remaining_amount = math.ceil(final_price - down_payment - 420000000)
+    else:
+        remaining_amount = math.ceil(final_price - down_payment)
+    markup = math.ceil(remaining_amount * ((1 + (0.165 / 12)) ** installment_period))
+    monthly_payment_factor = math.ceil(markup / installment_period)
+    difference = math.ceil(down_payment + (420000000 if calculator_type == 'installment' else 0) + markup - final_price)
+    if calculator_type == 'installment':
+        final_price = down_payment + 420000000 + markup
+        difference = (difference +down_payment+420000000+monthly_payment_factor*installment_period)-final_price
+    else:
+        final_price = down_payment + markup
+        difference = (difference + down_payment + monthly_payment_factor * installment_period) - final_price
+    final_price_per_sqm = round(final_price / area)
+
+    current_date_time = time.strftime("%Y-%m-%d %H:%M:%S")
+    booking_fee=3000000
+    return render_template('result.html',
+                           apartment=apartment_dict,
+                           down_payment=f"{down_payment:,}".replace(",", " "),
+                           monthly_payment_factor=f"{monthly_payment_factor:,}".replace(",", " "),
+                           difference=f"{difference:,}".replace(",", " "),
+                           months_to_cadastre=apartment_dict[
+                               'max_installment_period_installment'] if calculator_type == 'mortgage' else
+                           apartment_dict['months_to_cadastre'],
+                           installment_period=installment_period,
+                           mpp=mpp,
+                           rop=rop,
+                           opt=opt,
+                           holding=holding,
+                           gd=gd,
+                           action=action,
+                           total_discount_percentage=total_discount_percentage,
+                           price_per_sqm=f"{price_per_sqm:,}".replace(",", " "),
+                           final_price=f"{final_price:,}".replace(",", " "),
+                           final_price_per_sqm=f"{final_price_per_sqm:,}".replace(",", " "),
+                           booking_fee=f"{booking_fee:,}".replace(",", " "),  # Передача переменной в шаблон
+                           math=math,
+                           users_name=session['user_name'],
+                           current_date_time=current_date_time)
 
 def allowed_file(filename):
     return '.' in filename and \

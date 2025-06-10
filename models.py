@@ -53,11 +53,16 @@ class Object(db.Model):
     holding = db.Column(db.Float, nullable=False, default=0.0)
     gd = db.Column(db.Float, nullable=False, default=0.0)  # Default to 0.0 if not provided
     max_discount = db.Column(db.Float, nullable=False, default=0.0)  # Default to 0.0 if not provided
-    project = db.Column(db.String(100), nullable=False)
     kd= db.Column(db.Float, nullable=False, default=0.0)  # Default to 0.0 if not provided
     mpp= db.Column(db.Float, nullable=False, default=0.0)  # Default to 0.0 if not provided
     rop= db.Column(db.Float, nullable=False, default=0.0)  # Default to 0.0 if not provided
-
+    months_to_cadastre = db.Column(db.Integer, nullable=False, default=0)  # Default to 0 if not provided
+    project = db.Column(db.String(100), nullable=False, default='')  # Default to empty string if not provided
+    min_down_payment_installment = db.Column(db.Integer, nullable=False, default=0)  # Default to 0 if not provided
+    max_installment_period_installment = db.Column(db.Integer, nullable=False, default=0)  # Default to 0 if not provided
+    mpp_ras = db.Column(db.Float, nullable=False, default=0)  # Default to 0 if not provided
+    rop_ras = db.Column(db.Float, nullable=False, default=0)  # Default to 0 if not provided
+    action = db.Column(db.Float, nullable=False, default=0)  # Default to 0 if not provided
 
 class Apartment(db.Model):
     __tablename__ = 'apartments'

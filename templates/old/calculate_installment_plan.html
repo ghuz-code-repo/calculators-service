@@ -11,7 +11,7 @@
 
 <body>
     <div class="top-left">
-        <a href="/calculators/main"><img src="/calculators/static/image_2025-04-22_15-51-16.png" class="logo"></a>
+        <a href="/calculators/"><img src="/calculators/static/image_2025-04-22_15-51-16.png" class="logo"></a>
     </div>
     <div class="container">
 
@@ -58,16 +58,13 @@
                 <button type="button"
                     onclick="toggleDiscountFields()">Скрыть/Показать</button>
                 <button type="submit">Рассчитать</button>
-                <button type="button"onclick="window.location.href = '/calculators/main'">
+                <button type="button"onclick="window.location.href = '/calculators/'">
                     Вернуться на калькулятор ипотеки</button>
-                {% if login_data == 'admin' %}
-                    <button type="button"onclick="window.location.href = '/calculators/admin">
-                        Админ панель</button>
-                {% endif %}
             </div>
         </form>
 
     </div>
 </body>
+
 
 </html>
