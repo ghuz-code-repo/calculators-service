@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результат расчета</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+        h1, h2 {
+            color: #d4af37; /* Golden House primary color */
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .details, .calculations {
+            margin-bottom: 20px;
+        }
+        .details p, .calculations p {
+            margin: 5px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #d4af37; /* Golden House primary color */
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #b38e2c; /* Darker shade of primary color */
+        }
+        .manager {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .footer {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .header {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+            .button {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='GH_logo.jpg') }}" alt="GH Logo" width="100">
+        </div>
+        <div class="header">
+            Рассчет выполнил менеджер по продажам: {{ users_name }}
+        </div>
+        <h1>Результат расчета</h1>
+        <div class="details">
+            <h2>Детали обьекта недвижимости</h2>
+            <p><strong>Проект:</strong> {{ apartment.project }}</p>
+            <p>ID: {{ apartment.id }}</p>
+            <p>Площадь [кв.м]: {{ apartment.area }}</p>
+            <p>Сумма платного бронирования: 3 000 000</p>
+            <p>Стоимость по прайсу: {{ "{:,}".format(math.ceil(apartment.price)).replace(",", " ") }}</p>
+            <p>Цена по прайсу [за кв.м]: {{ price_per_sqm }}</p>
+            <p>Этаж квартиры: {{ apartment.floor }}</p>
+            <p>Подьезд: {{ apartment.entrance }}</p>
+            <p>Номер квартиры: {{ apartment.apartment_number }}</p>
+            <p>Количество месяцев до кадастра: {{ months_to_cadastre }}</p>
+        </div>
+        <div class="calculations">
+            <p>Первоначальный взнос: {{ down_payment }}</p>
+            <p>Ежемесячный платеж: {{ monthly_payment_factor }}</p>
+            <p>Константа [для CRM]: {{ difference }}</p>
+            <p>Срок рассрочки (в месяцах): {{ installment_period }}</p>
+            <p>Итоговая стоимость по договору: {{ final_price }}</p>
+            <p>Итоговая цена за кв.м: {{ final_price_per_sqm }}</p>
+            <h3>Примененные скидки</h3>
+            {% if mpp > 0 %}
+            <p>MPP: {{ mpp }}</p>
+            {% endif %}
+            {% if rop > 0 %}
+            <p>ROP: {{ rop }}</p>
+            {% endif %}
+            {% if opt > 0 %}
+            <p>OPT: {{ opt }}</p>
+            {% endif %}
+            {% if holding > 0 %}
+            <p>Holding: {{ holding }}</p>
+            {% endif %}
+            {% if gd > 0 %}
+            <p>GD: {{ gd }}</p>
+            {% endif %}
+            {% if action > 0 %}
+            <p>Action: {{ action }}</p>
+            {% endif %}
+            <p>Общая сумма скидок: {{ total_discount_percentage }}%</p>
+        </div>
+        <a href="/calculators/" class="button">Обратно к калькулятору</a>
+        <div class="footer">
+            <p>{{ current_date_time }}</p>
+            <p>Данное коммерческое предложение действует 12 часов с момента печати</p>
+        </div>
+    </div>
+</body>
+</html>

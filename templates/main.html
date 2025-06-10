@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="/calculators/static/css/common.css">
 </head>
 <body>
+    {% include 'components/header.html' %}
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <div class="flash-messages">
@@ -16,10 +18,10 @@
     {% endwith %}
     <main>
         <div class="tab_menu">
-            <button class="tablink" onclick="openPage('ipoteka_rassrochka', this, 'red')" id='defaultOpen'>Ипотека+рассрочка</button>
-            <button class="tablink" onclick="openPage('rassrochka', this, 'green')">Рассрочка</button>
-            <button class="tablink" onclick="openPage('ipoteka_zero', this, 'blue')">Ипотека под 0%</button>
-            <button class="tablink" onclick="openPage('rassrochka_pv', this, 'orange')">Рассрочка ПВ</button>
+            <button class="tablink" onclick="openPage('ipoteka_rassrochka', this)" id='defaultOpen'>Ипотека+рассрочка</button>
+            <button class="tablink" onclick="openPage('rassrochka', this)">Рассрочка</button>
+            <button class="tablink" onclick="openPage('ipoteka_zero', this)">Ипотека под 0%</button>
+            <button class="tablink" onclick="openPage('rassrochka_pv', this)">Рассрочка ПВ</button>
         </div>
         <div class="tab_container">
             <div id="ipoteka_rassrochka" class="tabcontent">

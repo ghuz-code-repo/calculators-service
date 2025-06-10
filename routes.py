@@ -2,7 +2,8 @@ import os
 from flask import render_template, redirect, url_for, flash, request, session, Blueprint, jsonify
 from models import db, User, Bank, Object, Apartment
 import math
-from datetime import datetime, time
+from datetime import datetime
+import time
 from models import CalculationHistory
 from pytz import timezone
 import logging
@@ -347,7 +348,7 @@ def main():
     installment_periods = db.session.query(Bank.installment_period).distinct().all()
     interest_rates = db.session.query(Bank.interest_rate).distinct().all()
     cashback_value = request.args.get('cashback_value')
-    return render_template('main.html', installment_periods=installment_periods, interest_rates=interest_rates, cashback_value=cashback_value, login_data=user.role)
+    return render_template('main.html', installment_periods=installment_periods, interest_rates=interest_rates, cashback_value=cashback_value, login_data=user.role, current_user=user)
 
 @bp_routes.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -601,6 +602,7 @@ def calculate_rassrochka():
 
     current_date_time = time.strftime("%Y-%m-%d %H:%M:%S")
     booking_fee=3000000
+    current_user = get_current_user()
     return render_template('result.html',
                            apartment=apartment_dict,
                            down_payment=f"{down_payment:,}".replace(",", " "),
@@ -622,8 +624,9 @@ def calculate_rassrochka():
                            final_price_per_sqm=f"{final_price_per_sqm:,}".replace(",", " "),
                            booking_fee=f"{booking_fee:,}".replace(",", " "),  # Передача переменной в шаблон
                            math=math,
-                           users_name=session['user_name'],
-                           current_date_time=current_date_time)
+                           users_name=current_user.full_name,
+                           current_date_time=current_date_time,
+                           current_user = current_user)
 
 def allowed_file(filename):
     return '.' in filename and \
