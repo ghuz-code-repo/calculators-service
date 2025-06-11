@@ -22,7 +22,7 @@
             <option value="{{ rate[0] }}">{{ rate[0] }}</option>
             {% endfor %}
         </select><br><br>
-        <div id="ipoteka_zero_discountFields" style="display: none;">
+        <div id="ipoteka_zero_discountFields" style="display: none; flex-direction: column;">
             <label for="gd_discount">Скидка ГД:</label>
             <input type="text" id="gd_discount"
                 name="gd_discount"><br><br>
@@ -37,7 +37,7 @@
         </div>
         <div class="buttons">
             <button type="button"
-                onclick="toggleDiscountFields('ipoteka_zero_discountFields')">Скрыть/Показать дополнительные скидки</button>
+                onclick="toggleSection('ipoteka_zero_discountFields')">Скрыть/Показать дополнительные скидки</button>
             <button type="submit">Рассчитать</button>
         </div>
     </form>

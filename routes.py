@@ -348,7 +348,14 @@ def main():
     installment_periods = db.session.query(Bank.installment_period).distinct().all()
     interest_rates = db.session.query(Bank.interest_rate).distinct().all()
     cashback_value = request.args.get('cashback_value')
-    return render_template('main.html', installment_periods=installment_periods, interest_rates=interest_rates, cashback_value=cashback_value, login_data=user.role, current_user=user)
+    return render_template('main.html',
+                           installment_periods=installment_periods,
+                           interest_rates=interest_rates,
+                           cashback_value=cashback_value,
+                           login_data=user.role,
+                           current_user=user,
+                           page='calculators',
+                           )
 
 @bp_routes.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -395,13 +402,21 @@ def admin():
         flash(f'Список квартир обновлен. Добавлено {len(appartment_ids)} квартир', 'success')
 
     file_updated = datetime.fromtimestamp(os.path.getmtime('./uploads/БД_клон для сайта ипотеки.xlsx')).strftime('%Y-%m-%d %H:%M:%S')
-
-    return render_template('admin.html', 
+    installment_periods = db.session.query(Bank.installment_period).distinct().all()
+    interest_rates = db.session.query(Bank.interest_rate).distinct().all()
+    cashback_value = request.args.get('cashback_value')
+    return render_template('main.html', 
                           calculation_history=calculation_history, 
                           apartments=apartments,
                           date_from=date_from_str,
                           date_to=date_to_str,
-                          file_updated=file_updated)
+                          file_updated=file_updated,
+                          installment_periods=installment_periods,
+                          interest_rates=interest_rates,
+                          cashback_value=cashback_value,
+                          current_user=user,
+                          page = 'admin',
+                          )
 
 @bp_routes.route('/process_form', methods=['POST'])
 def process_form():

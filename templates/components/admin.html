@@ -1,31 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Page</title>
-    <link rel="stylesheet" href="/calculators/static/css/common.css">
-    <link rel="stylesheet" href="/calculators/static/css/admin.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-</head>
-<body>
-    <div class="top-right">
-        <form action="/calculators/update_database" method="post">
-            <button type="submit">Update Database</button>
-        </form>
-    </div>
-    <div class="top-left">
-        <a href="/calculators/"><img src="/calculators/static/image_2025-04-22_15-51-16.png" class="logo"></a>
-    </div> 
-    
-    <div class="centered-container">
 
-        <!-- Apartments section -->
-        <div class="admin-section">
-
-            <h1>Apartments for Installment Plan History</h1>
-            <button type="button" class="toggle-button" onclick="toggleSection('apartments-section')">Show/Hide</button>
-            
-            <div id="apartments-section" class="section-container" style="display: none;">
+<div class="centered-container">
+    <!-- Apartments section -->
+    <div class="admin-section">
+        <h1>Apartments for Installment Plan History</h1>
+        <button type="button" class="toggle-button" onclick="toggleSection('apartments-section')">Show/Hide</button>
+        
+        <div id="apartments-section" class="section-container" style="display: none;">
                 <div class="form-container">
                     <!-- Добавляем enctype="multipart/form-data" для загрузки файлов -->
                     <form action="/calculators/admin/upload" method="post" enctype="multipart/form-data" class="admin-form">
@@ -123,75 +103,71 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <h1>Calculation History</h1>
-            <button type="button" class="toggle-button" onclick="toggleSection('calculationHistory_section')">Show/Hide</button>
-            <div id="calculationHistory_section" class="section-container" style="display: none;">
-                <div id="status_calculationHistory"></div> <!-- Optional status message area -->
-            
-                <div class="table-container" style="width: 100%;">
-                    <table id="calculationHistory_table" class="data-table" style="display: table;">
-                        <thead>
+        </div>
+        <h1>Calculation History</h1>
+        <button type="button" class="toggle-button" onclick="toggleSection('calculationHistory_section')">Show/Hide</button>
+        <div id="calculationHistory_section" class="section-container" style="display: flex;">
+            <div id="status_calculationHistory"></div> <!-- Optional status message area -->
+        
+            <div class="table-container" style="width: 100%;">
+                <table id="calculationHistory_table" class="data-table" style="display: table;">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Calculation Date</th>
+                            <th>Apartment ID</th>
+                            <th>GD Discount</th>
+                            <th>Holding Discount</th>
+                            <th>OPT Discount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calculationHistory_tbody">
+                        <!-- Строки таблицы генерируются Jinja2 -->
+                        {% if calculation_history %}
+                            {% for record in calculation_history %}
                             <tr>
-                                <th>Full Name</th>
-                                <th>Calculation Date</th>
-                                <th>Apartment ID</th>
-                                <th>GD Discount</th>
-                                <th>Holding Discount</th>
-                                <th>OPT Discount</th>
+                                <td>{{ record.user_full_name }}</td>
+                                <td>{{ record.calculation_date }}</td>
+                                <td>{{ record.apartment_id }}</td>
+                                <td>{{ record.gd_discount }}</td>
+                                <td>{{ record.holding_discount }}</td>
+                                <td>{{ record.opt_discount }}</td>
                             </tr>
-                        </thead>
-                        <tbody id="calculationHistory_tbody">
-                            <!-- Строки таблицы генерируются Jinja2 -->
-                            {% if calculation_history %}
-                                {% for record in calculation_history %}
-                                <tr>
-                                    <td>{{ record.user_full_name }}</td>
-                                    <td>{{ record.calculation_date }}</td>
-                                    <td>{{ record.apartment_id }}</td>
-                                    <td>{{ record.gd_discount }}</td>
-                                    <td>{{ record.holding_discount }}</td>
-                                    <td>{{ record.opt_discount }}</td>
-                                </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td colspan="6" style="text-align: center;">No calculation history available</td>
-                                </tr>
-                            {% endif %}
-                        </tbody>
-                    </table>
-                    <div class="pagination-info" id="calculationHistory_pagination_info">
-                        Showing <span id="calculationHistory_pageStart">0</span> to <span id="calculationHistory_pageEnd">0</span> of <span id="calculationHistory_totalItems">0</span> entries
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" style="text-align: center;">No calculation history available</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <div class="pagination-info" id="calculationHistory_pagination_info">
+                    Showing <span id="calculationHistory_pageStart">0</span> to <span id="calculationHistory_pageEnd">0</span> of <span id="calculationHistory_totalItems">0</span> entries
+                </div>
+                <div class="pagination-controls">
+                    <div class="items-per-page">
+                        <label for="calculationHistory_itemsPerPage">Items per page:</label>
+                        <select id="calculationHistory_itemsPerPage">
+                            <option value="10">10</option>
+                            <option value="20" selected>20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
                     </div>
-                    <div class="pagination-controls">
-                        <div class="items-per-page">
-                            <label for="calculationHistory_itemsPerPage">Items per page:</label>
-                            <select id="calculationHistory_itemsPerPage">
-                                <option value="10">10</option>
-                                <option value="20" selected>20</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </div>
-                    
-                        <div class="pagination" id="calculationHistory_pagination">
-                            <button id="calculationHistory_prevPage" disabled>&laquo; Previous</button>
-                            <div id="calculationHistory_pageNumbers"></div>
-                            <button id="calculationHistory_nextPage">Next &raquo;</button>
-                        </div>
-                    
-                        <div class="page-jump">
-                            <label for="calculationHistory_pageJump">Go to page:</label>
-                            <input type="number" id="calculationHistory_pageJump" min="1" class="page-jump-input">
-                            <button type="button" id="calculationHistory_pageJumpBtn" class="page-jump-btn">Go</button>
-                        </div>
+                
+                    <div class="pagination" id="calculationHistory_pagination">
+                        <button id="calculationHistory_prevPage" disabled>&laquo; Previous</button>
+                        <div id="calculationHistory_pageNumbers"></div>
+                        <button id="calculationHistory_nextPage">Next &raquo;</button>
+                    </div>
+                
+                    <div class="page-jump">
+                        <label for="calculationHistory_pageJump">Go to page:</label>
+                        <input type="number" id="calculationHistory_pageJump" min="1" class="page-jump-input">
+                        <button type="button" id="calculationHistory_pageJumpBtn" class="page-jump-btn">Go</button>
                     </div>
                 </div>
             </div>
-        </div> 
-    </div>
-    <script src="/calculators/static/js/pagination.js"></script>
-    <script src="/calculators/static/js/toggling.js"></script>
-</body>
-</html>
+        </div>
+    </div> 
+</div>

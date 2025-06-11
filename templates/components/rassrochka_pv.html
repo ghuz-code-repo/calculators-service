@@ -10,7 +10,7 @@
             <option value="{{ period }}">{{ period }}</option>
             {% endfor %}
         </select><br><br>
-        <div id="rassrochka_pv_discountFields" style="display: none;">
+        <div id="rassrochka_pv_discountFields" style="display: none; flex-direction: column;">
             <label for="gd_discount">Скидка ГД:</label>
             <input type="number" id="gd_discount"
                 name="gd_discount"><br><br>
@@ -23,7 +23,7 @@
         </div>
         <div class="buttons">
             <button type="button"
-                onclick="toggleDiscountFields('rassrochka_pv_discountFields')">Скрыть/Показать дополнительные скидки</button>
+                onclick="toggleSection('rassrochka_pv_discountFields')">Скрыть/Показать дополнительные скидки</button>
             <button type="submit">Рассчитать</button>
         </div>
     </form>

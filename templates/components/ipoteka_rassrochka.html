@@ -16,18 +16,19 @@
 
         <label for="rop">Скидка РОП</label>
         <input type="number" name="rop" id="rop" min="0" maxlength="3">
-        <div id="rassrochka_ipoteka_discountFields" style="display: none;">
-            <label for="opt">ОПТ</label>
-            <input type="number" name="opt" id="opt" min="0" max="{{ max_opt }}" maxlength="3">
+        <div id="rassrochka_ipoteka_discountFields" style="display: none;flex-direction: column;">
+            <label for="gd">ГД</label>
+            <input type="number" name="gd" id="gd" min="0" max="{{ max_gd }}" maxlength="3">
 
             <label for="holding">Холдинг</label>
             <input type="number" name="holding" id="holding" min="0" max="{{ max_holding }}" maxlength="3">
 
-            <label for="gd">ГД</label>
-            <input type="number" name="gd" id="gd" min="0" max="{{ max_gd }}" maxlength="3">
+                        
+            <label for="opt">ОПТ</label>
+            <input type="number" name="opt" id="opt" min="0" max="{{ max_opt }}" maxlength="3">
         </div>
         <div class="buttons">
-            <button type="button" onclick="toggleDiscountFields('rassrochka_ipoteka_discountFields')">Скрыть/Показать дополнительные скидки</button>
+            <button type="button" onclick="toggleSection('rassrochka_ipoteka_discountFields')">Скрыть/Показать дополнительные скидки</button>
             <button type="submit">Рассчитать</button>
         </div>
     </form>

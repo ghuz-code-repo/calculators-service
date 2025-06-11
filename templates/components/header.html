@@ -4,18 +4,20 @@
             <img src="/discount-system/static/logo.png" alt="Golden House Logo" class="logo">
         </div>
 
-        <div class="header-nav">
-            {% if request.path != '/' and request.path != '/calculators/' %}
-            <a href="/discount-system/" class="nav-link">
+            {% if request.path != '/' and page != 'calculators' %}
+            <a href='/calculators' class="nav-link">
                 <button>Калькулятор</button>
             </a>
             {% endif %}
-            {% if current_user.role == 'admin'%}
-                {% if request.path != '/calculators/admin'%}  
-
+            {% if current_user.role == 'admin' %}
+                {% if page != 'admin' %}
                 <a href="/calculators/admin" class="nav-link">
                     <button>Админ панель</button>
                 </a>
+                {%else%}
+                    <form action="/calculators/update_database" method="post" style="padding: 0px; box-shadow: 0px 0px 0px 0px">
+                        <button type="submit">Update Database</button>
+                    </form>
                 {% endif %}
             {% endif %}
             <div class="user-info">
@@ -24,6 +26,5 @@
                     <button>Menu</button>
                 </a>
             </div>
-        </div>
     </div>
 </header>

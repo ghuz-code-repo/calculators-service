@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Калькулятор рассрочки и ипотеки</title>
     <link rel="stylesheet" href="/calculators/static/css/style.css">
     <link rel="stylesheet" href="/calculators/static/css/common.css">
-    <script src="/calculators/static/js/toggling.js"></script>
+    <link rel="stylesheet" href="/calculators/static/css/admin.css">
 </head>
 <body>
     {% include 'components/header.html' %}
@@ -17,29 +18,40 @@
         </div>
         {% endif %}
     {% endwith %}
+
     <main>
-        <div class="tab_menu">
-            <button class="tablink" onclick="openPage('ipoteka_rassrochka', this)" id='defaultOpen'>Калькулятор рассрочки + ипотеки</button>
-            <button class="tablink" onclick="openPage('rassrochka', this)">Калькулятор рассрочки</button>
-            <button class="tablink" onclick="openPage('ipoteka_zero', this)">Калькулятор ипотеки под 0%</button>
-            <button class="tablink" onclick="openPage('rassrochka_pv', this)">Калькулятор рассрочки первого платежа</button>
-        </div>
-        <div class="tab_container">
-            <div id="ipoteka_rassrochka" class="tabcontent">
-                {% include 'components/ipoteka_rassrochka.html' %}
+        {% if page=="admin" %}
+            {% if current_user.role == 'admin' %}
+                {% include 'components/admin.html' %}
+            {% endif %}
+        {% endif %}
+
+        {% if page=="calculators" %}
+            <div id = "calculator" style="display: flex;flex-direction: column;">
+                <div class="tab_menu">
+                    <button class="tablink" onclick="openPage('ipoteka_rassrochka', this)" id='defaultOpen'>Калькулятор рассрочки + ипотеки</button>
+                    <button class="tablink" onclick="openPage('rassrochka', this)">Калькулятор рассрочки</button>
+                    <button class="tablink" onclick="openPage('ipoteka_zero', this)">Калькулятор ипотеки под 0%</button>
+                    <button class="tablink" onclick="openPage('rassrochka_pv', this)">Калькулятор рассрочки первого платежа</button>
+                </div>
+                <div class="tab_container">
+                    <div id="ipoteka_rassrochka" class="tabcontent">
+                        {% include 'components/ipoteka_rassrochka.html' %}
+                    </div>
+                    <div id="rassrochka" class="tabcontent">
+                        {% include 'components/rassrochka.html' %}
+                    </div>
+                    <div id="ipoteka_zero" class="tabcontent">
+                        {% include 'components/ipoteka_zero.html' %}
+                    </div>
+                    <div id="rassrochka_pv" class="tabcontent">
+                        {% include 'components/rassrochka_pv.html' %}
+                    </div>
             </div>
-            <div id="rassrochka" class="tabcontent">
-                {% include 'components/rassrochka.html' %}
-            </div>
-            <div id="ipoteka_zero" class="tabcontent">
-                {% include 'components/ipoteka_zero.html' %}
-            </div>
-            <div id="rassrochka_pv" class="tabcontent">
-                {% include 'components/rassrochka_pv.html' %}
-            </div>
-        </div>
+        {% endif %}
     </main>
 </body>
 <script src="/calculators/static/js/tabs.js"></script>
 <script src="/calculators/static/js/toggling.js"></script>
+<script src="/calculators/static/js/pagination.js"></script>
 </html>
