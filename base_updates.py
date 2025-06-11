@@ -30,17 +30,18 @@ def import_objects(file_path):
             holding=row['Холдинг'],
             gd=row['ГД'],
             max_discount=row['Макс скидка'],
-            project=row['Проект'],
+            project=row['Настоящий проект'],
             apartment_id=row['ID'],
             kd=row['КД'],
             mpp=row['МПП'],rop=row['РОП'],
             months_to_cadastre=row['Кадастр'],
             min_down_payment_installment=row['Минимальный ПВ'],
-            max_installment_period_installment=row['Кадастр'],
+            max_installment_period_installment=row['Срок рассрочки'],
             mpp_ras=row['МПП_рас'],
             rop_ras=row['РОП_рас'],
             action=row['Акция']
         )
+
         if obj not in objects:
             db.session.add(obj)
     db.session.commit()
