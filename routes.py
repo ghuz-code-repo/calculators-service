@@ -149,11 +149,11 @@ def calculate_installment_plan():
             obj = Object.query.filter_by(apartment_id=apartment_id).first()
             if not obj:
                 flash('Неверный ID квартиры.', 'danger')
-                return render_template('calculate_installment_plan.html')
+                return render_template('main.html', current_user=user, page="calculators" )
             
             if not Apartment.query.filter_by(apartment_id=apartment_id).first() and user.role != 'admin':
                 flash('Квартира не участвует в акции.', 'danger')
-                return render_template('calculate_installment_plan.html')
+                return render_template('main.html', current_user=user, page="calculators")
             project_name = obj.project
             apartment_number = obj.apartment_number
             area = obj.area
@@ -179,9 +179,9 @@ def calculate_installment_plan():
                 opt_discount > obj.opt or opt_discount < 0.0
                     ):
                 flash('Превышен лимит по скидке.', 'danger')
-                return render_template('calculate_installment_plan.html')
-            
-            
+                return render_template('main.html', current_user=user, page="calculators")
+
+
 
             # Get apartment data from database
 
@@ -195,7 +195,7 @@ def calculate_installment_plan():
             # Validate inputs
             if month_count <= 0 or month_count > 6:
                 flash('Пожалуйста, введите корректный срок рассрочки первого платежа.', 'danger')
-                return render_template('calculate_installment_plan.html')
+                return render_template('main.html', current_user=user, page="calculators")
             price-= paid_reservation #2
             full_disc_percent = discount/100 + opt_discount/100 + gd_discount/100 + holding_discount/100
             first_full_disc =  price * full_disc_percent
@@ -284,10 +284,10 @@ def calculate_installment_plan():
             
         except Exception as e:
             flash(f'Произошла ошибка при расчете: {str(e)}', 'danger')
-            return render_template('calculate_installment_plan.html')
+            return render_template('main.html', current_user=user, page="calculators")
     
     # GET request - just render the form
-    return render_template('calculate_installment_plan.html', login_data=user.role)
+    return render_template('main.html', login_data=user.role, current_user=user, page="calculators")
 
 @bp_routes.route('/update_database', methods=['POST'])
 def update_database():
