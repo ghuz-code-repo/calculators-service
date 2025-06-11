@@ -11,9 +11,10 @@
             </a>
             {% endif %}
             {% if current_user.role == 'admin'%}
-                {% if request.path != '/upload-excel' and request.path != '/discount-system/upload-excel' %}
-                <a href="/discount-system/upload-excel" class="nav-link">
-                    <button>Загрузить Excel</button>
+                {% if request.path != '/calculators/admin'%}  
+
+                <a href="/calculators/admin" class="nav-link">
+                    <button>Админ панель</button>
                 </a>
                 {% endif %}
             {% endif %}

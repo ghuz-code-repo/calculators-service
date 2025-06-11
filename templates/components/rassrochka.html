@@ -1,52 +1,35 @@
 
 <div class="container">
-    <h1>Калькулятор рассрочки</h1>
-    <p id="calculator-type-display"></p>
     <form id="calculator_form" method="POST"  action="/calculators/calculate_rassrochka">
-        <input type="hidden" name="calculator_type" id="calculator_type" value="installment">
-        <div class="form-container">
-            <div class="form-column">
-                <div class="form-group">
-                    <label for="apartment_id">ID квартиры</label>
-                    <input type="number" name="apartment_id" id="apartment_id" required>
-                </div>
-                <div class="form-group">
-                    <label for="down_payment">Первоначальный взнос</label>
-                    <input type="text" name="down_payment" id="down_payment" required>
-                </div>
-                <div class="form-group">
-                    <label for="installment_period">Срок рассрочки (в месяцах)</label>
-                    <input type="number" name="installment_period" id="installment_period" maxlength="3" required>
-                </div>
-            </div>
-            <div class="form-column">
-                <div class="form-group">
-                    <label for="mpp">Скидка МПП</label>
-                    <input type="number" name="mpp" id="mpp" min="0" maxlength="3">
-                </div>
-                <div class="form-group">
-                    <label for="rop">Скидка РОП</label>
-                    <input type="number" name="rop" id="rop" min="0" maxlength="3">
-                </div>
-            </div>
+        <input type="hidden" name="calculator_type" id="calculator_type" value="mortgage">
+
+        <label for="apartment_id">ID квартиры</label>
+        <input type="number" name="apartment_id" id="apartment_id" required>
+
+        <label for="down_payment">Первоначальный взнос</label>
+        <input type="text" name="down_payment" id="down_payment" required>
+
+        <label for="installment_period">Срок рассрочки (в месяцах)</label>
+        <input type="number" name="installment_period" id="installment_period" maxlength="3" required>
+
+        <label for="mpp">Скидка МПП</label>
+        <input type="number" name="mpp" id="mpp" min="0" maxlength="3">
+
+        <label for="rop">Скидка РОП</label>
+        <input type="number" name="rop" id="rop" min="0" maxlength="3">
+        <div id="rassrochka_discountFields" style="display: none;">
+            <label for="opt">ОПТ</label>
+            <input type="number" name="opt" id="opt" min="0" max="{{ max_opt }}" maxlength="3">
+
+            <label for="holding">Холдинг</label>
+            <input type="number" name="holding" id="holding" min="0" max="{{ max_holding }}" maxlength="3">
+
+            <label for="gd">ГД</label>
+            <input type="number" name="gd" id="gd" min="0" max="{{ max_gd }}" maxlength="3">
         </div>
-        <div class="dropdown">
-            <button type="button" onclick="toggleDropdown()">Дополнительные скидки</button>
-            <div id="dropdown-content" style="display: none;">
-                <div class="form-group">
-                    <label for="opt">ОПТ</label>
-                    <input type="number" name="opt" id="opt" min="0" max="{{ max_opt }}" maxlength="3">
-                </div>
-                <div class="form-group">
-                    <label for="holding">Холдинг</label>
-                    <input type="number" name="holding" id="holding" min="0" max="{{ max_holding }}" maxlength="3">
-                </div>
-                <div class="form-group">
-                    <label for="gd">ГД</label>
-                    <input type="number" name="gd" id="gd" min="0" max="{{ max_gd }}" maxlength="3">
-                </div>
-            </div>
+        <div class="buttons">
+            <button type="button" onclick="toggleDiscountFields('rassrochka_discountFields')">Скрыть/Показать дополнительные скидки</button>
+            <button type="submit">Рассчитать</button>
         </div>
-        <button type="submit">Рассчитать</button>
     </form>
 </div>

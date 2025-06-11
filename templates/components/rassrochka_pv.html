@@ -1,45 +1,30 @@
 
-    <div class="container">
-
-        <h1>Калькулятор рассрочки первого платежа</h1>
-
-        <!-- Calculation Form -->
-        <form action="/calculators/calculate_installment_plan" method="POST">
-            <label for="apartment_id">ID квартиры:</label>
-            <input type="text" id="apartment_id" name="apartment_id"
-                required>
-
-            <label for="month_count">Срок кредита (в месяцах):</label>
-            <select id="month_count" name="month_count" required>
-                {% for period in [1,2,3,4,5,6] %}
-                <option value="{{ period }}">{{ period }}</option>
-                {% endfor %}
-            </select><br><br>
-            <div id="discountFields" style="display: none;">
-                <label for="gd_discount">Скидка ГД:</label>
-                <input type="number" id="gd_discount"
-                    name="gd_discount"><br><br>
-
-                <label for="holding_discount">Скидка Холдинга:</label>
-                <input type="number" id="holding_discount"
-                    name="holding_discount"><br><br>
-
-                <label for="opt_discount">Скидка ОПТ:</label>
-                <input type="number" id="opt_discount"
-                    name="opt_discount"><br><br>
-            </div>
-            <div class="buttons">
-                <button type="button"
-                    onclick="toggleDiscountFields()">Скрыть/Показать</button>
-                <button type="submit">Рассчитать</button>
-                <button type="button"onclick="window.location.href = '/calculators/'">
-                    Вернуться на калькулятор ипотеки</button>
-                {% if login_data == 'admin' %}
-                    <button type="button"onclick="window.location.href = '/calculators/admin">
-                        Админ панель</button>
-                {% endif %}
-            </div>
-        </form>
-
-    </div>
-
+<div class="container">
+    <form action="/calculators/calculate_installment_plan" method="POST">
+        <label for="apartment_id">ID квартиры:</label>
+        <input type="text" id="apartment_id" name="apartment_id"
+            required>
+        <label for="month_count">Срок кредита (в месяцах):</label>
+        <select id="month_count" name="month_count" required>
+            {% for period in [1,2,3,4,5,6] %}
+            <option value="{{ period }}">{{ period }}</option>
+            {% endfor %}
+        </select><br><br>
+        <div id="rassrochka_pv_discountFields" style="display: none;">
+            <label for="gd_discount">Скидка ГД:</label>
+            <input type="number" id="gd_discount"
+                name="gd_discount"><br><br>
+            <label for="holding_discount">Скидка Холдинга:</label>
+            <input type="number" id="holding_discount"
+                name="holding_discount"><br><br>
+            <label for="opt_discount">Скидка ОПТ:</label>
+            <input type="number" id="opt_discount"
+                name="opt_discount"><br><br>
+        </div>
+        <div class="buttons">
+            <button type="button"
+                onclick="toggleDiscountFields('rassrochka_pv_discountFields')">Скрыть/Показать дополнительные скидки</button>
+            <button type="submit">Рассчитать</button>
+        </div>
+    </form>
+</div>

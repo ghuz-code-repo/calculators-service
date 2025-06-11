@@ -1,5 +1,5 @@
-function toggleDiscountFields() {
-    var discountFields = document.getElementById('discountFields');
+function toggleDiscountFields(elementid) {
+    var discountFields = document.getElementById(elementid);
     if (discountFields.style.display === 'none' || discountFields.style.display === '') {
         discountFields.style.display = 'block';
     } else {

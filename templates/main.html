@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="/calculators/static/css/style.css">
     <link rel="stylesheet" href="/calculators/static/css/common.css">
+    <script src="/calculators/static/js/toggling.js"></script>
 </head>
 <body>
     {% include 'components/header.html' %}
@@ -18,10 +19,10 @@
     {% endwith %}
     <main>
         <div class="tab_menu">
-            <button class="tablink" onclick="openPage('ipoteka_rassrochka', this)" id='defaultOpen'>Ипотека+рассрочка</button>
-            <button class="tablink" onclick="openPage('rassrochka', this)">Рассрочка</button>
-            <button class="tablink" onclick="openPage('ipoteka_zero', this)">Ипотека под 0%</button>
-            <button class="tablink" onclick="openPage('rassrochka_pv', this)">Рассрочка ПВ</button>
+            <button class="tablink" onclick="openPage('ipoteka_rassrochka', this)" id='defaultOpen'>Калькулятор рассрочки + ипотеки</button>
+            <button class="tablink" onclick="openPage('rassrochka', this)">Калькулятор рассрочки</button>
+            <button class="tablink" onclick="openPage('ipoteka_zero', this)">Калькулятор ипотеки под 0%</button>
+            <button class="tablink" onclick="openPage('rassrochka_pv', this)">Калькулятор рассрочки первого платежа</button>
         </div>
         <div class="tab_container">
             <div id="ipoteka_rassrochka" class="tabcontent">
@@ -40,4 +41,5 @@
     </main>
 </body>
 <script src="/calculators/static/js/tabs.js"></script>
+<script src="/calculators/static/js/toggling.js"></script>
 </html>
