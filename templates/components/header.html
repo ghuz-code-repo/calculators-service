@@ -1,30 +1,39 @@
 <header class="header">
-    <div class="header-content">
-        <div class="header-logo">
-            <img src="/discount-system/static/logo.png" alt="Golden House Logo" class="logo">
-        </div>
-
-            {% if request.path != '/' and page != 'calculators' %}
-            <a href='/calculators' class="nav-link">
-                <button>Калькулятор</button>
-            </a>
-            {% endif %}
-            {% if current_user.role == 'admin' %}
-                {% if page != 'admin' %}
-                <a href="/calculators/admin" class="nav-link">
-                    <button>Админ панель</button>
-                </a>
-                {%else%}
-                    <form action="/calculators/update_database" method="post" style="padding: 0px; box-shadow: 0px 0px 0px 0px">
-                        <button type="submit">Update Database</button>
-                    </form>
-                {% endif %}
-            {% endif %}
-            <div class="user-info">
-                <span>{{ current_user.full_name }}</span>
-                <a href="/" class="nav-link">
-                    <button>Menu</button>
-                </a>
-            </div>
+    <div class="header_name">
+        <img src="{{ url_for('static', filename='img/logo-light.svg')}}" 
+             alt="Golden House Logo" 
+             class="logo" 
+             id="dynamic-logo"
+             data-light-logo="{{ url_for('static', filename='img/logo-dark.svg') }}"
+             data-dark-logo="{{ url_for('static', filename='img/logo-light.svg') }}">
     </div>
+    
+    <!-- Кнопка гамбургер для мобильной версии -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+    
+    <nav class="nav" id="mobileNav">
+        <div class="nav__list">
+            <div class="nav__item">
+                <a href="/calculators/" class="nav__link"><i class="fas fa-calculator"></i> Калькуляторы</a>
+            </div>
+            {% if current_user and current_user.role == 'admin' %}
+            <div class="nav__item">
+                <a href="/calculators/admin" class="nav__link"><i class="fas fa-cogs"></i> Админ панель</a>
+            </div>
+            {% endif %}
+            <div class="nav__item">
+                <a href="/menu" class="nav__link"><i class="fas fa-th-list"></i> Меню сервисов</a>
+            </div>
+            <div class="nav__item">
+                <button id="theme-switcher" class="nav__link theme-switcher" title="Переключить тему" onclick="window.themeManager && window.themeManager.toggleTheme()">
+                    <span id="theme-text">Тёмная тема</span>
+                </button>
+            </div>
+        </div>
+        
+    </nav>
 </header>

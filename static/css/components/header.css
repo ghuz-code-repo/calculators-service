@@ -1,0 +1,342 @@
+.tab-dropdown-toggle{
+    display: none;
+}
+
+.tab-dropdown-content{
+    display: block;
+}
+
+.tab-dropdown-content-mobile{
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .tab-dropdown-content{
+        display: none;
+    }
+
+    .tab-dropdown-content-mobile {
+        display: block;
+        position: absolute;
+        top: 0;
+        width: 100vw;
+        margin-bottom: 20px;
+        background: var(--body-background);
+    }
+
+    .header {
+        position: relative;
+        z-index: 1001;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+        margin-right: 20px !important;
+        z-index: 12001;
+        position: relative;
+        background: none;
+        border: none;
+        flex-direction: column;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        align-items: center;
+        transition: background 0.2s;
+    }
+
+    .logo {
+        height: 35px !important;
+        max-width: 150px !important;
+    }
+
+    .header_name img {
+        height: 35px !important;
+        max-width: 150px !important;
+    }
+
+    /* Главное отличие: меню фиксированное на весь экран */
+    .nav {
+        display: none;
+        position: fixed !important;
+        top: 0; left: 0; right: 0; bottom: 0;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: var(--header-background) !important;
+        z-index: 12000 !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s, visibility 0.3s;
+        box-shadow: none;
+        padding: 0;
+    }
+    .nav.active {
+        display: flex !important;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .nav__list {
+        flex-direction: column;
+        gap: 2.5rem;
+        text-align: center;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav__item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav__link {
+        padding: 1.2rem 2rem;
+        border-radius: var(--border-radius);
+        justify-content: center;
+        font-size: 1.2rem;
+        width: 100%;
+        display: block;
+        text-decoration: none;
+        color: var(--text-primary);
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+
+    .theme-switcher {
+        max-width: 80vw;
+        min-width: 40vw;
+        justify-content: center !important;
+        font-size: 1.2rem !important;
+        background: var(--primary-golden) !important;
+        color: var(--body-background) !important;
+        border: 2px solid var(--primary-golden) !important;
+        border-radius: var(--border-radius) !important;
+        display: block !important;
+        margin: 0 auto;
+    }
+
+    .hamburger-line {
+        width: 25px;
+        height: 3px;
+        background-color: var(--text-primary);
+        margin: 3px 0;
+        border-radius: 2px;
+        transition: all 0.3s;
+    }
+
+    /* Крестик вместо гамбургера при открытом меню */
+    .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+        opacity: 0;
+    }
+    .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+}
+
+/* Добавляем viewport-адаптацию для мобильных устройств */
+@media (max-width: 900px), (pointer: coarse), (hover: none) {
+    .header {
+        flex-wrap: wrap;
+        padding: 0.5rem 0.5rem;
+    }
+
+    .logo,
+    .header_name img {
+        height: 32px !important;
+        max-width: 120px !important;
+    }
+
+    .nav__link,
+    .theme-switcher {
+        font-size: 1rem !important;
+        padding: 1rem 1rem !important;
+    }
+
+    .nav__list {
+        gap: 1.2rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .header {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 0.5rem !important;
+        padding: 0.5rem 0.5rem !important;
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+    .logo, .header_name img {
+        height: 36px !important;
+        max-width: 140px !important;
+    }
+    .mobile-menu-toggle {
+        display: flex !important;
+        z-index: 12001;
+        position: relative;
+    }
+    .nav {
+        flex-direction: column !important;
+        width: 100% !important;
+        align-items: flex-start !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .nav__list {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+        align-items: flex-start !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .nav__item, .nav__link, .theme-switcher {
+        width: 100% !important;
+        min-width: 0 !important;
+        font-size: 1.1rem !important;
+        padding: 1rem 0.5rem !important;
+        box-sizing: border-box !important;
+        text-align: left !important;
+        justify-content: flex-start !important;
+    }
+
+    .container{
+        min-width: 100vw !important;
+    }
+
+    form{
+        min-width: 90% !important;
+    }
+}
+
+/* Мобильный вид tab_menu (выбор калькулятора) */
+@media (max-width: 900px) {
+    .tab_menu {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+        margin: 0 0 1rem 0 !important;
+        padding: 0.5rem 0 !important;
+        background: var(--tab-background) !important;
+        border-radius: var(--border-radius) !important;
+        box-shadow: var(--box-shadow-sm, 0 2px 4px rgba(0,0,0,0.07)) !important;
+    }
+    .tablink {
+        width: 100% !important;
+        min-width: 0 !important;
+        /* font-size: 1.1rem !important;
+        padding: 1rem 0.5rem !important;
+        border-radius: 8px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        text-align: left !important;
+        background: var(--tab-background) !important;
+        color: var(--text-primary) !important;
+        border: 1.5px solid var(--border-color) !important;
+        transition: background 0.2s, color 0.2s, border 0.2s; */
+    }
+    .tablink.active,
+    .tablink:active,
+    .tablink:focus {
+        border-color: var(--primary-golden) !important;
+    }
+    /* Для визуального разделения */
+    .tablink:not(:last-child) {
+        margin-bottom: 0.5rem !important;
+    }
+}
+
+
+/* Мобильный tab_menu как выпадающее меню */
+@media (max-width: 900px) {
+    .tab_menu {
+        position: relative !important;
+        width: 100% !important;
+        /* margin: 0 0 1rem 0 !important; */
+        padding: 0 !important;
+        background: none !important;
+        border-radius: var(--border-radius) !important;
+        box-shadow: none !important;
+        gap: 0 !important;
+        z-index: 1002;
+    }
+   
+    .tab-dropdown-toggle {
+        display: block !important;
+        width: 100% !important;
+        font-size: 1.1rem !important;
+        /* padding: 1rem 0.5rem !important; */
+        border-radius: 8px !important;
+        color: var(--text-primary) !important;
+        border: 1.5px solid var(--border-color) !important;
+        text-align: left !important;
+        cursor: pointer;
+        position: relative;
+        z-index: 3;
+
+        margin-bottom: 0 !important;
+        font-weight: 600;
+    }
+    .tab-dropdown-toggle::after {
+        content: '';
+        display: inline-block;
+        float: right;
+        margin-top: 0.4em;
+        border: 6px solid transparent;
+        border-top: 7px solid var(--text-primary);
+        transition: transform 0.2s;
+    }
+
+    .tab_menu .tablink {
+        display: none !important;
+        /* width: 100% !important; */
+        min-width: 100% !important;
+        min-height: 0 !important;
+        font-size: 1.1rem !important;
+        padding: 1rem 0.5rem !important;
+        border-radius: 8px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        text-align: left !important;
+        color: var(--text-primary) !important;
+        border: 1.5px solid var(--border-color) !important;
+        transition: background 0.2s, color 0.2s, border 0.2s;
+    }
+    .tab_menu .tablink.active {
+        /* display: block !important; */
+        color: var(--body-background) !important;
+        border-color: var(--primary-golden) !important;
+        position: relative;
+        z-index: 2;
+        margin-top: 0.5rem !important;
+        margin-bottom: 0 !important;
+        font-weight: 600;
+        box-shadow: var(--box-shadow-sm, 0 2px 4px rgba(0,0,0,0.07)) !important;
+    }
+    .tab_menu.open .tablink {
+        display: block !important;
+        margin-top: 0.5rem !important;
+    }
+    .tab_menu.open .tablink:not(.active) {
+        color: var(--text-primary) !important;
+        border-color: var(--border-color) !important;
+        font-weight: 400;
+        box-shadow: none !important;
+    }
+    .tab_menu .tablink:not(:last-child) {
+        margin-bottom: 0.5rem !important;
+    }
+}

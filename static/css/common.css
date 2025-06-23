@@ -99,14 +99,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* min-width: 100%;
-    min-height: 100%;
-    max-width: 1200px; 
-    margin: auto auto; */
-    /* padding: 20px; */
-    background-color: #fff;
-    /* border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    backdrop-filter: blur(4.7px);
 }
 
 .centered-container {
@@ -204,9 +197,9 @@ input[type="file"]:hover {
 }
 
 button {
-    background-color: #d4af37;
+    background-color: transparent;
     /* Golden color */
-    min-width: 100%;
+    /* min-width: 100%; */
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -216,7 +209,7 @@ button {
 }
 
 button:hover {
-    background-color: #b8860b;
+    background-color: var(--hover-color);
     /* Darker golden color */
 }
 
@@ -231,9 +224,7 @@ label {
 .toggle-button,
 button[type="submit"],
 button[type="button"] {
-    background-color: #d4af37;
     color: white;
-    border: none;
     padding: 10px 16px;
     border-radius: 4px;
     cursor: pointer;
@@ -289,8 +280,8 @@ tbody tr:hover {
 body,
 html {
     height: 100%;
-    margin: 0;
     font-family: Arial;
+    z-index: 1;
 }
 
 /* Style tab links */
@@ -319,9 +310,7 @@ html {
 }
 
 .tab_menu {
-    display: flex;
-    justify-content: center;
-    max-height: 10vh;
+    display: block;
 }
 
 .tab_container {
@@ -346,4 +335,45 @@ html {
 
 #rassrochka_pv {
     background-color: rgb(255, 204, 128);
+}
+
+.bg-parts {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* ГЛОБАЛЬНО УБИРАЕМ ВСЕ margin у body и html, включая user agent stylesheet */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    width: 100vw !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+}
+
+/* Для надёжности: убираем margin у body через селектор с повышенным приоритетом */
+body, body * {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+@media (max-width: 900px) {
+    .flash-messages, .flash-message {
+        font-size: 1rem !important;
+        padding: 0.7rem 0.5rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .footer {
+        font-size: 0.95rem !important;
+        padding: 0.5rem 0.5rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
 }

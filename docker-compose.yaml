@@ -10,6 +10,9 @@ services:
     volumes:
       - ./instance:/app/instance
       - ./excel_data:/app/excel_data
+      - ./templates:/app/templates
+      - ./static:/app/static
+      - ./uploads:/app/uploads
     environment:
       - BEHIND_PROXY=true
     env_file:

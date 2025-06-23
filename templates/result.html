@@ -4,50 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результат расчета</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- ПЕРВЫМ загружаем переменные темы -->
+    <link rel="stylesheet" href="/calculators/static/css/theme-variables.css">
+    <link rel="stylesheet" href="/calculators/static/css/components/header.css">
+    
+    <!-- Theme Manager -->
+    <script src="/calculators/static/js/theme-manager.js"></script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: var(--body-background);
+            color: var(--text-primary);
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             min-height: 100vh;
         }
         .container {
             width: 90%;
             max-width: 800px;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--card-background);
+            color: var(--text-primary);
+            box-shadow: var(--box-shadow-md);
             text-align: center;
             position: relative;
+            margin: 2rem auto;
+            border-radius: var(--border-radius);
         }
         h1, h2 {
-            color: #d4af37; /* Golden House primary color */
-        }
-        p {
-            font-size: 16px;
-            line-height: 1.5;
-        }
-        .details, .calculations {
-            margin-bottom: 20px;
-        }
-        .details p, .calculations p {
-            margin: 5px 0;
+            color: var(--primary-golden);
         }
         .button {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #d4af37; /* Golden House primary color */
-            color: #fff;
+            background-color: var(--primary-golden);
+            color: var(--body-background);
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: var(--border-radius);
+            transition: all var(--transition-normal);
         }
         .button:hover {
-            background-color: #b38e2c; /* Darker shade of primary color */
+            background-color: var(--hover-golden);
         }
         .manager {
             margin-bottom: 20px;
@@ -81,6 +83,8 @@
     </style>
 </head>
 <body>
+    {% include 'components/header.html' %}
+    
     <div class="container">
         <div class="logo">
             <img src="{{ url_for('static', filename='GH_logo.jpg') }}" alt="GH Logo" width="100">

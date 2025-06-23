@@ -9,6 +9,17 @@ function toggleSection(id) {
     }
 }
 
+// Инициализация при загрузке DOM
+document.addEventListener('DOMContentLoaded', function () {
+    // Убеждаемся что theme-manager инициализирован
+    if (!window.themeManager) {
+        console.warn('ThemeManager not found, creating instance...');
+        window.themeManager = new ThemeManager();
+    }
+    
+    console.log('Toggling.js loaded, theme manager ready');
+});
+
 // function toggleCalculator() {
 //     const calculator = document.getElementById('calculator');
 //     const admin = document.getElementById('admin_panel');

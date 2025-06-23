@@ -2,11 +2,28 @@
 <html>
 <head>
     <title>Калькулятор рассрочки и ипотеки</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ПЕРВЫМ загружаем переменные темы -->
+    <link rel="stylesheet" href="/calculators/static/css/theme-variables.css">
+    
+    <!-- Затем остальные стили -->
+    <link rel="stylesheet" href="/calculators/static/css/components/header.css">
     <link rel="stylesheet" href="/calculators/static/css/style.css">
     <link rel="stylesheet" href="/calculators/static/css/common.css">
     <link rel="stylesheet" href="/calculators/static/css/admin.css">
+    <link rel="stylesheet" href="/calculators/static/css/components/header.css">
+    
+    <!-- Theme Manager загружается в head -->
+    <script src="/calculators/static/js/theme-manager.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+  html, body { margin: 0 !important; padding: 0 !important; }
+</style>
+
 </head>
-<body>
+<body class="base-body">
+    <div id="particles-js" class="bg-parts"></div>
     {% include 'components/header.html' %}
 
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -28,11 +45,20 @@
         
         {% if page=="calculators"%}
             <div id = "calculator" style="display: flex;flex-direction: column;">
+                <button class="tab-dropdown-toggle">Выбрать калькулятор</button>
                 <div class="tab_menu">
-                    <button class="tablink" onclick="openPage('ipoteka_rassrochka', this)" id='defaultOpen'>Калькулятор рассрочки + ипотеки</button>
-                    <button class="tablink" onclick="openPage('rassrochka', this)">Калькулятор рассрочки</button>
-                    <button class="tablink" onclick="openPage('ipoteka_zero', this)">Калькулятор ипотеки под 0%</button>
-                    <button class="tablink" onclick="openPage('rassrochka_pv', this)">Калькулятор рассрочки первого платежа</button>
+                    <div class = "tab-dropdown-content">
+                        <button class="tablink" onclick="openPage('ipoteka_rassrochka', this)" id='defaultOpen'>РАССРОЧКИ + ИПОТЕКИ</button>
+                        <button class="tablink" onclick="openPage('rassrochka', this)">РАССРОЧКА</button>
+                        <button class="tablink" onclick="openPage('ipoteka_zero', this)">ИПОТЕКА ПОД 0</button>
+                        <button class="tablink" onclick="openPage('rassrochka_pv', this)">РАССРОЧКА ПЕРВОГО ПЛАТЕЖА</button>
+                    </div>
+                    <div class="tab-dropdown-content-mobile">
+                        <button class="tablink" onclick="openPage('ipoteka_rassrochka', this)" id='defaultOpen'>РАССРОЧКИ + ИПОТЕКИ</button>
+                        <button class="tablink" onclick="openPage('rassrochka', this)">РАССРОЧКА</button>
+                        <button class="tablink" onclick="openPage('ipoteka_zero', this)">ИПОТЕКА ПОД 0%</button>
+                        <button class="tablink" onclick="openPage('rassrochka_pv', this)">РАССРОЧКА ПЕРВОГО ПЛАТЕЖА</button>
+                    </div>
                 </div>
                 <div class="tab_container">
                     <div id="ipoteka_rassrochka" class="tabcontent">
@@ -54,4 +80,24 @@
 <script src="/calculators/static/js/tabs.js"></script>
 <script src="/calculators/static/js/toggling.js"></script>
 <script src="/calculators/static/js/pagination.js"></script>
+  <script>
+    particlesJS('particles-js', {
+        "particles": {
+            "number": { "value": 120, "density": { "enable": true, "value_area": 800 } }, // Было 50, стало 120
+            "color": { "value": "#c4a668" },
+            "shape": { "type": "polygon", "stroke": { "width": 1, "color": "#c4a668" }, "polygon": { "nb_sides": 6 } },
+            "opacity": { "value": 0.2, "random": true, "anim": { "enable": true, "speed": 0.5, "opacity_min": 0.05, "sync": false } },
+            "size": { "value": 4, "random": true },
+            "line_linked": { "enable": true, "distance": 180, "color": "#c4a668", "opacity": 0.15, "width": 1 },
+            "move": { "enable": true, "speed": 0.8, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+        },
+        "interactivity": {
+            "detect_on": "canvas",
+            "events": { "onhover": { "enable": true, "mode": "bubble" } },
+            "modes": { "bubble": { "distance": 200, "size": 6, "duration": 2, "opacity": 0.6 } }
+        },
+        "retina_detect": true
+    });
+    </script>
+
 </html>

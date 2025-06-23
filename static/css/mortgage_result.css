@@ -95,8 +95,6 @@ p {
 
     /* Reset body and html for printing */
     html, body {
-        margin: 0 !important;
-        padding: 0 !important;
         width: 100% !important;
         height: auto !important;
         background-color: white !important;
