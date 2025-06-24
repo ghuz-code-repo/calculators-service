@@ -229,7 +229,7 @@ button[type="button"] {
     border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
 }
 
 .primary-button:hover,
@@ -237,6 +237,7 @@ button[type="button"] {
 button[type="submit"]:hover,
 button[type="button"]:hover {
     background-color: #b8860b;
+    color: var(--body-background);
 }
 
 /* General table styling */

@@ -2,7 +2,7 @@
 
 :root {
     /* === СВЕТЛАЯ ТЕМА === */
-    --body-background: rgba(255, 255, 255, 0);
+    --body-background: rgba(255, 255, 255, 1);
     --text-primary: #333333;
     --text-secondary: #6c757d;
     --text-muted: #adb5bd;
@@ -30,7 +30,7 @@
     --danger-color: #dc3545;
     
     /* Переходы и эффекты */
-    --transition-normal: 0.3s ease;
+    --transition-normal: all 0.2s ease;
     --border-radius: 4px;
     --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
     --box-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -54,7 +54,7 @@
     
     /* Тени и переходы */
     --box-shadow: 0 2px 4px rgba(0,0,0,0);
-    --transition-normal: 0.3s ease;
+    --transition-normal: 0.2s ease;
 }
 
 /* === ТЁМНАЯ ТЕМА === */
@@ -154,6 +154,7 @@ button, .primary-button, .toggle-button {
 
 button:hover, .primary-button:hover, .toggle-button:hover {
     background-color: var(--hover-golden) !important;
+    color: var(--body-background) !important;
 }
 
 /* Таблицы */
@@ -193,6 +194,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .tablink:hover {
     background-color: var(--hover-golden) !important;
+    color: var(--body-background) !important;
 }
 
 .tabcontent {
@@ -238,10 +240,12 @@ main {
     background-color: var(--tab-background) !important;
     color: var(--text-primary) !important;
     border-color: var(--border-color) !important;
+    transition: all 0.2s ease;
 }
 
 .tablink.active {
     background-color: var(--tab-active-background) !important;
+    color: #0a0a0a !important;
     border-bottom-color: var(--tab-active-background) !important;
 }
 
@@ -308,7 +312,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .header_name .logo {
     height: 40px;
-    transition: opacity 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .nav {
@@ -334,19 +338,19 @@ h1, h2, h3, h4, h5, h6 {
     border: none;
     cursor: pointer;
     border-radius: 4px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 
 .theme-switcher {
     border: 2px solid var(--primary-golden, #d4af37) !important;
-    color: var(--primary-golden, #d4af37) !important;
+    color: var(--text-primary, #d4af37) !important;
     background: transparent !important;
 }
 
 .theme-switcher:hover {
     background-color: var(--primary-golden, #d4af37) !important;
-    color: white !important;
+    color: var(--body-background, #d4af37) !important;
 }
 
 /* ГАМБУРГЕР МЕНЮ - ПОКАЗЫВАЕМ ВСЕГДА НА МОБИЛЬНЫХ */
@@ -364,7 +368,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 3px;
     background: var(--text-dark, #333);
     margin: 3px 0;
-    transition: 0.3s;
+    transition: all 0.2s ease;
 }
 
 /* МОБИЛЬНАЯ ВЕРСИЯ */
@@ -382,7 +386,7 @@ h1, h2, h3, h4, h5, h6 {
         height: 100vh;
         background: var(--bg-white, white);
         transform: translateX(-100%);
-        transition: transform 0.3s ease;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;

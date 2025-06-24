@@ -69,7 +69,7 @@
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transition: opacity 0.3s, visibility 0.3s;
+        transition: opacity 0.2s, visibility 0.2s;
         box-shadow: none;
         padding: 0;
     }
@@ -130,7 +130,7 @@
         background-color: var(--text-primary);
         margin: 3px 0;
         border-radius: 2px;
-        transition: all 0.3s;
+        transition: all 0.2s;
     }
 
     /* Крестик вместо гамбургера при открытом меню */
